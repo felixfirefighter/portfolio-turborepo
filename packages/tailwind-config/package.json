@@ -1,0 +1,13 @@
+{
+	"name": "@repo/tailwind-config",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.ts",
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"daisyui": "^5.0.50",
+		"tailwindcss": "^4.1.11"
+	}
+}
