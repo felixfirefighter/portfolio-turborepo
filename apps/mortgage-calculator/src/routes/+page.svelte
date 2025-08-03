@@ -1,10 +1,10 @@
 <script lang="ts">
+	import EmptyState from '$lib/mortgage/components/EmptyState.svelte'
 	import InputGroup from '$lib/mortgage/components/InputGroup.svelte'
 	import RadioGroup from '$lib/mortgage/components/RadioGroup.svelte'
-	import EmptyState from '$lib/mortgage/components/EmptyState.svelte'
 	import ResultsDisplay from '$lib/mortgage/components/ResultsDisplay.svelte'
-	import type { PageData } from './$types'
-	import SuperDebug, { superForm } from 'sveltekit-superforms'
+	import { superForm } from 'sveltekit-superforms'
+	import { Calculator } from '@lucide/svelte'
 
 	// Initialize superForm
 	let { data, form } = $props()
@@ -25,16 +25,16 @@
 
 <div class="min-h-screen bg-base-200 flex items-center justify-center p-4">
 	<div
-		class="card lg:card-side bg-base-100 shadow-xl rounded-2xl w-full max-w-5xl overflow-hidden"
+		class="card lg:card-side bg-base-100 shadow-xl rounded-2xl w-full max-w-5xl"
 	>
 		<!-- Form Section -->
 		<form method="POST" use:enhance class="card-body p-8 lg:w-1/2">
 			<div class="flex justify-between items-center mb-6">
-				<h2 class="card-title text-2xl font-semibold">Mortgage Calculator</h2>
+				<h2 class="card-title text-xl font-semibold">Mortgage Calculator</h2>
 				<button
 					type="button"
-					class="btn btn-ghost text-sm text-primary hover:underline"
-					on:click={clearAll}
+					class="btn btn-link text-sm text-primary hover:underline"
+					onclick={clearAll}
 				>
 					Clear All
 				</button>
@@ -47,7 +47,6 @@
 					unit="$"
 					bind:value={$formData.mortgageAmount}
 					error={$errors.mortgageAmount}
-					type="number"
 					name="mortgageAmount"
 				/>
 
@@ -58,7 +57,6 @@
 						unit="years"
 						bind:value={$formData.mortgageTerm}
 						error={$errors.mortgageTerm}
-						type="number"
 						name="mortgageTerm"
 					/>
 
@@ -84,7 +82,8 @@
 					name="mortgageType"
 				/>
 
-				<button type="submit" class="btn btn-primary w-full mt-6">
+				<button type="submit" class="btn btn-secondary rounded-full px-10 mt-6">
+					<Calculator size={20} />
 					Calculate Repayments
 				</button>
 			</div>
@@ -92,7 +91,7 @@
 
 		<!-- Results/Empty State Section -->
 		<div
-			class="lg:w-1/2 bg-primary-content text-primary-content p-8 flex items-center justify-center rounded-r-2xl"
+			class="lg:w-1/2 bg-primary-content/90 rounded-bl-[4rem] text-primary-content p-8 flex items-center justify-center rounded-r-2xl"
 		>
 			{#if form?.result?.showResults && form?.result?.monthlyRepayments !== null && form?.result?.totalRepayable !== null}
 				<ResultsDisplay

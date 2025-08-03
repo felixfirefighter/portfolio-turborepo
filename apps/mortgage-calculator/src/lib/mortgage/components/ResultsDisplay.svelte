@@ -14,7 +14,7 @@
 	$: formattedTotalRepayable = formatter.format(totalRepayable)
 </script>
 
-<div class="w-full text-center lg:text-left">
+<div class="text-center">
 	<h3 class="text-2xl font-semibold mb-4">Your results</h3>
 	<p class="text-lg opacity-80 mb-8">
 		Your results are shown below based on the information you provided. To adjust
