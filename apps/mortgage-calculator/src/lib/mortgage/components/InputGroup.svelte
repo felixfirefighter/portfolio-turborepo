@@ -24,7 +24,7 @@
 
 <div class="form-control text-sm text-neutral">
 	<label class="label-text">
-		<p class="mb-1">{label}</p>
+		<p class="mb-2">{label}</p>
 		<label class="input w-full">
 			{#if unit === '$'}
 				<span class="label">$</span>

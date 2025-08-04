@@ -29,11 +29,11 @@
 	>
 		<!-- Form Section -->
 		<form method="POST" use:enhance class="card-body p-8 lg:w-1/2">
-			<div class="flex justify-between items-center mb-6">
+			<div class="flex justify-between items-center mb-4">
 				<h2 class="card-title text-xl font-semibold">Mortgage Calculator</h2>
 				<button
 					type="button"
-					class="btn btn-link text-sm text-primary hover:underline"
+					class="btn btn-link text-sm text-secondary hover:underline"
 					onclick={clearAll}
 				>
 					Clear All
@@ -82,7 +82,7 @@
 					name="mortgageType"
 				/>
 
-				<button type="submit" class="btn btn-secondary rounded-full px-10 mt-6">
+				<button type="submit" class="btn btn-secondary rounded-full px-10">
 					<Calculator size={20} />
 					Calculate Repayments
 				</button>
@@ -91,7 +91,7 @@
 
 		<!-- Results/Empty State Section -->
 		<div
-			class="lg:w-1/2 bg-primary-content/90 rounded-bl-[4rem] text-primary-content p-8 flex items-center justify-center rounded-r-2xl"
+			class="lg:w-1/2 bg-secondary-content/90 rounded-bl-[3rem] p-8 flex items-center rounded-r-2xl"
 		>
 			{#if form?.result?.showResults && form?.result?.monthlyRepayments !== null && form?.result?.totalRepayable !== null}
 				<ResultsDisplay

@@ -24,7 +24,7 @@
 					class={clsx(
 						'flex w-full items-center px-4 py-3 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out',
 						{
-							'border-primary bg-primary-focus text-primary-content':
+							'border-secondary bg-secondary/20 text-secondary-content':
 								selected === option.value,
 							'border-gray-300': selected !== option.value,
 							'border-error bg-error text-error-content': errorMessage,
@@ -35,7 +35,7 @@
 					<input
 						type="radio"
 						{name}
-						class="radio radio-primary {errorMessage ? 'radio-error' : ''}"
+						class="radio radio-secondary radio-xs {errorMessage ? 'radio-error' : ''}"
 						value={option.value}
 						bind:group={selected}
 					/>
