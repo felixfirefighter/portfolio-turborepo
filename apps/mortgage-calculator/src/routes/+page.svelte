@@ -91,7 +91,7 @@
 
 		<!-- Results/Empty State Section -->
 		<div
-			class="lg:w-1/2 bg-secondary-content/90 rounded-bl-[3rem] p-8 flex items-center rounded-r-2xl"
+			class="lg:w-1/2 bg-secondary-content/90 lg:rounded-bl-[3rem] p-8 flex items-center lg:rounded-r-2xl rounded-b-2xl"
 		>
 			{#if form?.result?.showResults && form?.result?.monthlyRepayments !== null && form?.result?.totalRepayable !== null}
 				<ResultsDisplay
