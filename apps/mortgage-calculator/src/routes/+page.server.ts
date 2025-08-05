@@ -13,8 +13,6 @@ export const actions: Actions = {
   default: async ({ request }) => {
     const form = await superValidate(request, zod4(mortgageSchema));
 
-    console.log('Form data:', form);
-
     if (!form.valid) {
       // Return the form with errors
       return { form };

@@ -7,7 +7,7 @@
 	import { Calculator } from '@lucide/svelte'
 
 	// Initialize superForm
-	let { data, form } = $props()
+	const { data, form } = $props()
 	const {
 		form: formData,
 		errors,
@@ -18,7 +18,7 @@
 	})
 
 	// Function to clear all form fields and results
-	function clearAll() {
+	const clearAll = () => {
 		reset()
 	}
 </script>
