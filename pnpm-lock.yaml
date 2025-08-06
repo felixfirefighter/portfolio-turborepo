@@ -25,6 +25,13 @@ importers:
         version: 5.8.3
 
   apps/advice-generator:
+    dependencies:
+      '@lucide/svelte':
+        specifier: ^0.536.0
+        version: 0.536.0(svelte@5.37.2)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
     devDependencies:
       '@repo/daisyui-config':
         specifier: workspace:*

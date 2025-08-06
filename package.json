@@ -5,6 +5,7 @@
 		"build": "turbo run build",
 		"dev": "turbo run dev",
 		"dev:mc": "turbo run dev --filter @repo/mortgage-calculator",
+		"dev:advice": "turbo run dev --filter @repo/advice-generator",
 		"lint": "turbo run lint",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"check-types": "turbo run check-types"
