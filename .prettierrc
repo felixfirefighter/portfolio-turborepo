@@ -1,10 +1,12 @@
 {
-	"plugins": ["prettier-plugin-svelte"],
+	"plugins": ["prettier-plugin-svelte", "@trivago/prettier-plugin-sort-imports"],
 	"useTabs": true,
 	"tabWidth": 1,
 	"singleQuote": true,
 	"svelteStrictMode": false,
 	"svelteBracketNewLine": true,
 	"semi": false,
-	"svelteIndentScriptAndStyle": true
+	"svelteIndentScriptAndStyle": true,
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true
 }
