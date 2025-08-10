@@ -1,102 +1,56 @@
-<script>
+<script lang="ts">
 	import Footer from '$lib/common/components/Footer.svelte'
 	import Header from '$lib/common/components/Header.svelte'
+	import { LocalStorage } from '$lib/common/service/localStorage.svelte.js'
 	import BoostSection from '$lib/home/components/BoostSection.svelte'
 	import Hero from '$lib/home/components/Hero.svelte'
 	import LinkCard from '$lib/home/components/LinkCard.svelte'
-	import ShortenForm from '$lib/home/components/ShortenForm.svelte'
 	import Statistics from '$lib/home/components/Statistics.svelte'
-	import { onMount } from 'svelte'
-	import { cubicOut } from 'svelte/easing'
-	import { tweened } from 'svelte/motion'
-	import { writable } from 'svelte/store'
-	import { v4 as uuidv4 } from 'uuid'
+	import type { ActionData } from './$types.js'
+	import { type FormResult, superForm } from 'sveltekit-superforms'
+	import { v4 } from 'uuid'
 
-	// State to hold the list of shortened links
-	let links = $state([])
-
-	// A writable store to manage the links, for use with effects and local storage
-	const linksStore = writable([])
-
-	// Use a derived state to get the value from the store
-	// $derived(() => {
-	// 	links = $linksStore
-	// })
-
-	// Use a Svelte effect to synchronize the links with local storage.
-	// This effect runs whenever linksStore changes.
-	$effect(() => {
-		// Only run this effect if `links` is not null to avoid initial false state.
-		if (links) {
-			localStorage.setItem('shortened-links', JSON.stringify(links))
-		}
-	})
-
-	// Load links from local storage on component mount
-	onMount(() => {
-		try {
-			const storedLinks = localStorage.getItem('shortened-links')
-			if (storedLinks) {
-				linksStore.set(JSON.parse(storedLinks))
-			}
-		} catch (error) {
-			console.error('Failed to load links from local storage:', error)
-		}
-	})
-
-	// Function to handle the API call and add the new link
-	async function handleShorten(originalUrl) {
-		try {
-			const response = await fetch('https://api.cleanuri.com/v1/shorten', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-				},
-				body: new URLSearchParams({
-					url: originalUrl,
-				}),
-			})
-
-			const data = await response.json()
-
-			if (response.ok && data.result_url) {
-				const newLink = {
-					id: uuidv4(),
-					original: originalUrl,
-					shortened: data.result_url,
-					copied: false,
-				}
-				linksStore.update((currentLinks) => [newLink, ...currentLinks])
-				return {
-					success: true,
-				}
-			} else {
-				return {
-					success: false,
-					message: data.error || 'Something went wrong. Please try a different URL.',
-				}
-			}
-		} catch (error) {
-			console.error('API request failed:', error)
-			return {
-				success: false,
-				message: 'Network error. Please check your internet connection.',
-			}
-		}
+	interface Link {
+		id: string
+		original: string
+		shortened: string
 	}
 
+	// A writable store to manage the links, for use with effects and local storage
+	const { data } = $props()
+	const { errors, enhance } = superForm(data.form, {
+		resetForm: false,
+		onUpdate: ({ form, result }) => {
+			// The `form` object in this callback has the `result` property
+			console.log('Form updated:', form, result)
+			const action = result.data as FormResult<ActionData>
+			if (form.valid && action.result?.shortenedUrl) {
+				urlStorage.current = urlStorage.current.concat([
+					{
+						id: v4(),
+						original: action.result.originalUrl,
+						shortened: action.result.shortenedUrl,
+					},
+				])
+			}
+		},
+	})
+
+	let urlInput = $state('')
+
+	const urlStorage = new LocalStorage<Link[]>('urlShotenerLinks', [])
 	// Function to update the copied state of a link
-	function handleCopy(id) {
-		linksStore.update((currentLinks) =>
-			currentLinks.map((link) =>
-				link.id === id ? { ...link, copied: true } : { ...link, copied: false },
-			),
-		)
+	function handleCopy(id: string) {
+		// 	urlStorage.update((currentLinks) =>
+		// 		currentLinks.map((link) =>
+		// 			link.id === id ? { ...link, copied: true } : { ...link, copied: false },
+		// 		),
+		// 	)
 	}
 
 	// Function to remove all links from the list and local storage
 	function clearAllLinks() {
-		linksStore.set([])
+		urlStorage.current = []
 	}
 </script>
 
@@ -109,24 +63,50 @@
 		<Hero />
 
 		<!-- Main Content Area -->
-		<section class="bg-base-200 py-24 px-4 sm:px-6 lg:px-8">
+		<section class="bg-primary py-24">
 			<div class="container mx-auto">
 				<!-- Shorten Form and Link List -->
 				<div class="relative -top-20 md:-top-16">
-					<ShortenForm onshorten={handleShorten} />
+					<div class="container flex justify-center -mt-24">
+						<form
+							method="POST"
+							use:enhance
+							class="bg-gray-800 p-8 md:p-12 rounded-lg shadow-xl w-full"
+						>
+							<div class="flex flex-col md:flex-row items-center gap-4">
+								<input
+									type="text"
+									name="url"
+									bind:value={urlInput}
+									class="input input-lg w-full rounded"
+									placeholder="Shorten a link here..."
+									aria-invalid={!!$errors.url}
+									aria-describedby="url-error"
+								/>
+								<button
+									type="submit"
+									class="btn btn-primary rounded-lg btn-lg w-full md:w-auto"
+								>
+									Shorten It!
+								</button>
+							</div>
+							{#if $errors.url}
+								<p id="url-error" class="text-error mt-2">{$errors.url}</p>
+							{/if}
+						</form>
+					</div>
 
-					{#if links.length > 0}
+					{#if urlStorage.current.length > 0}
 						<div class="mt-8 flex flex-col gap-4">
 							<div class="flex justify-end">
 								<button onclick={clearAllLinks} class="btn btn-ghost btn-sm">
 									Clear All
 								</button>
 							</div>
-							{#each links as link (link.id)}
+							{#each urlStorage.current as link (link.id)}
 								<LinkCard
 									originalUrl={link.original}
 									shortenedUrl={link.shortened}
-									copied={link.copied}
 									oncopy={() => handleCopy(link.id)}
 								/>
 							{/each}

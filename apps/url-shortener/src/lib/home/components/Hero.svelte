@@ -2,8 +2,8 @@
 	import heroSvg from '$lib/home/assets/illustration-working.png'
 </script>
 
-<div class="bg-base-100">
-	<div class="hero container mx-auto px-4 sm:px-6 lg:px-8 py-24">
+<div class="bg-base-100 overflow-hidden">
+	<div class="hero container mx-auto px-4 sm:px-6 py-24">
 		<div
 			class="hero-content flex-col lg:flex-row items-center justify-between gap-12"
 		>
@@ -12,7 +12,7 @@
 				<h1 class="text-4xl lg:text-6xl font-bold max-w-lg leading-tight">
 					More than just shorter links
 				</h1>
-				<p class="py-6 text-neutral">
+				<p class="py-6 text-gray-500">
 					Build your brand's recognition and get detailed insights on how your links
 					are performing.
 				</p>
@@ -20,7 +20,7 @@
 			</div>
 
 			<!-- Hero image -->
-			<div class="flex-3 -mr-50">
+			<div class="flex-3 -mr-50 overflow-hidden">
 				<img src={heroSvg} alt="Hero" />
 			</div>
 		</div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	const { originalUrl, shortenedUrl, copied, oncopy } = $props()
+	const { originalUrl, shortenedUrl, oncopy } = $props()
 
 	// Handle the copy-to-clipboard functionality
 	function handleCopyClick() {
@@ -45,7 +45,7 @@
 				onclick={handleCopyClick}
 				class="btn btn-primary btn-sm md:btn-md w-full md:w-auto"
 			>
-				{#if copied}Copied!{:else}Copy{/if}
+				<!-- {#if copied}Copied!{:else}Copy{/if} -->
 			</button>
 		</div>
 	</div>
