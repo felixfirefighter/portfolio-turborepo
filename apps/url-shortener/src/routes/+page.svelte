@@ -18,8 +18,12 @@
 
 	// A writable store to manage the links, for use with effects and local storage
 	const { data } = $props()
-	const { errors, enhance } = superForm(data.form, {
-		resetForm: false,
+	const {
+		errors,
+		enhance,
+		form: formData,
+	} = superForm(data.form, {
+		resetForm: true,
 		onUpdate: ({ form, result }) => {
 			// The `form` object in this callback has the `result` property
 			console.log('Form updated:', form, result)
@@ -35,8 +39,6 @@
 			}
 		},
 	})
-
-	let urlInput = $state('')
 
 	const urlStorage = new LocalStorage<Link[]>('urlShotenerLinks', [])
 	// Function to update the copied state of a link
@@ -66,7 +68,7 @@
 		<section class="bg-primary py-24">
 			<div class="container mx-auto">
 				<!-- Shorten Form and Link List -->
-				<div class="relative -top-20 md:-top-16">
+				<div class="relative -top-20 md:-top-16 mx-4">
 					<div class="container flex justify-center -mt-24">
 						<form
 							method="POST"
@@ -77,7 +79,7 @@
 								<input
 									type="text"
 									name="url"
-									bind:value={urlInput}
+									bind:value={$formData.url}
 									class="input input-lg w-full rounded"
 									placeholder="Shorten a link here..."
 									aria-invalid={!!$errors.url}

@@ -8,7 +8,7 @@
 			class="hero-content flex-col lg:flex-row items-center justify-between gap-12"
 		>
 			<!-- Hero text content -->
-			<div class="flex-2 text-center lg:text-left">
+			<div class="flex-1 text-center lg:text-left">
 				<h1 class="text-4xl lg:text-6xl font-bold max-w-lg leading-tight">
 					More than just shorter links
 				</h1>
@@ -20,7 +20,7 @@
 			</div>
 
 			<!-- Hero image -->
-			<div class="flex-3 -mr-50 overflow-hidden">
+			<div class="flex-1">
 				<img src={heroSvg} alt="Hero" />
 			</div>
 		</div>
