@@ -7,6 +7,7 @@
 		"dev:mc": "turbo run dev --filter @repo/mortgage-calculator",
 		"dev:advice": "turbo run dev --filter @repo/advice-generator",
 		"dev:url": "turbo run dev --filter @repo/url-shortener",
+		"dev:country": "turbo run dev --filter @repo/countries",
 		"lint": "turbo run lint",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"check-types": "turbo run check-types"
