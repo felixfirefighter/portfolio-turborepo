@@ -4,7 +4,8 @@ import { countriesSchema } from '$lib/home/types/country.schema';
 
 export const load: PageServerLoad = async ({ fetch }) => {
   // Fetch all countries from the REST Countries API
-  const res = await fetch('https://restcountries.com/v3.1/all');
+  const res = await fetch('https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital');
+
   if (!res.ok) {
     // Throw an error if the API request fails
     return { countries: [] };

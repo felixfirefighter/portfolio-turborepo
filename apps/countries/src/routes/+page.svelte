@@ -7,7 +7,9 @@
 	let searchTerm = $state('')
 	let selectedRegion = $state('All')
 
-	const filteredCountries = $derived(() => {
+	console.log('Loaded countries:', data.countries)
+
+	let filteredCountries = $derived.by(() => {
 		// Filter by region first
 		let result = data.countries
 		if (selectedRegion !== 'All') {
@@ -124,7 +126,7 @@
 			>
 				<figure class="aspect-[3/2]">
 					<img
-						src={country.flags.svg}
+						src={country.flags.png}
 						alt="Flag of {country.name.common}"
 						class="object-cover w-full h-full"
 					/>
