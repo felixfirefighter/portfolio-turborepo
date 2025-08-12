@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import type { PageProps } from './$types'
+	import { ChevronDown, SearchIcon } from '@lucide/svelte'
 
 	let { data }: PageProps = $props()
 
@@ -44,71 +45,38 @@
 		class="flex flex-col md:flex-row md:justify-between md:items-center gap-6"
 	>
 		<!-- Search Input -->
-		<div class="relative w-full md:w-1/3">
-			<div
-				class="absolute inset-y-0 left-0 flex items-center pl-4 text-base-content/60 search-icon"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="w-6 h-6"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-					/>
-				</svg>
-			</div>
+		<label class="input">
+			<SearchIcon size="16" />
 			<input
 				type="text"
+				class="grow"
 				placeholder="Search for a country..."
-				class="input w-full pl-12 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
 				bind:value={searchTerm}
 			/>
-		</div>
+		</label>
 
 		<!-- Region Filter Dropdown -->
-		<details
-			class="dropdown w-full md:w-1/4"
-			onclick={(e) => e.stopPropagation()}
-		>
+		<details class="dropdown w-full md:w-1/4">
 			<summary
-				role="button"
 				class="btn w-full justify-between shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
 			>
 				<span class="truncate">Filter by Region ({selectedRegion})</span>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-5 w-5"
-					viewBox="0 0 20 20"
-					fill="currentColor"
-				>
-					<path
-						fill-rule="evenodd"
-						d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-						clip-rule="evenodd"
-					/>
-				</svg>
+				<ChevronDown size="16" />
 			</summary>
 			<ul
 				class="dropdown-content z-[1] menu p-2 shadow-sm bg-base-100 rounded-box w-full"
 			>
 				{#each regions as region}
 					<li>
-						<a
+						<button
 							onclick={() => {
 								selectedRegion = region
-								// Close the dropdown after selection
 								const detailsElement = document.querySelector('details')
 								if (detailsElement) detailsElement.removeAttribute('open')
 							}}
 						>
 							{region}
-						</a>
+						</button>
 					</li>
 				{/each}
 			</ul>
@@ -117,38 +85,38 @@
 
 	<!-- Country Cards Grid -->
 	<div
-		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8"
+		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 lg:gap-12"
 	>
 		{#each filteredCountries as country}
-			<div
-				class="card bg-base-100 shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition-shadow"
+			<button
+				class="rounded bg-base-100 shadow-md overflow-hidden text-start cursor-pointer hover:shadow-xl transition-shadow"
 				onclick={() => handleCountryClick(country.name.common)}
 			>
-				<figure class="aspect-[3/2]">
+				<figure class="aspect-[3/2] border-b border-base-300">
 					<img
 						src={country.flags.png}
 						alt="Flag of {country.name.common}"
 						class="object-cover w-full h-full"
 					/>
 				</figure>
-				<div class="card-body p-6">
+				<div class="card-body p-4 px-6 mb-2">
 					<h2 class="card-title text-xl font-bold truncate">
 						{country.name.common}
 					</h2>
-					<p class="text-sm">
+					<p>
 						<span class="font-semibold">Population:</span>
 						{country.population.toLocaleString()}
 					</p>
-					<p class="text-sm">
+					<p>
 						<span class="font-semibold">Region:</span>
 						{country.region}
 					</p>
-					<p class="text-sm truncate">
+					<p class="truncate">
 						<span class="font-semibold">Capital:</span>
 						{country.capital ? country.capital.join(', ') : 'N/A'}
 					</p>
 				</div>
-			</div>
+			</button>
 		{:else}
 			<p>No countries found.</p>
 		{/each}
