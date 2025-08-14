@@ -4,6 +4,8 @@
 
 	let { data }: PageProps = $props()
 
+	console.log('aaaa', data)
+
 	function handleBackClick() {
 		// Go back to the previous page in the browser history
 		history.back()
@@ -46,7 +48,6 @@
 						src={data.country.flags.svg}
 						alt="Flag of {data.country.name.common}"
 						class="object-cover w-full h-full"
-						onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/333333?text=Flag+Not+Found';"
 					/>
 				</figure>
 			</div>
@@ -59,7 +60,7 @@
 					<div>
 						<p class="text-sm">
 							<span class="font-semibold">Native Name:</span>
-							{Object.values(data.country.name.nativeName)?.[0]?.common || 'N/A'}
+							<!-- {Object.values(data.country.name.nativeName)?.[0]?.common || 'N/A'} -->
 						</p>
 						<p class="text-sm">
 							<span class="font-semibold">Population:</span>
@@ -85,7 +86,7 @@
 						</p>
 						<p class="text-sm">
 							<span class="font-semibold">Currencies:</span>
-							{Object.values(data.country.currencies || {})?.[0]?.name || 'N/A'}
+							<!-- {Object.values(data.country.currencies || {})?.[0]?.name || 'N/A'} -->
 						</p>
 						<p class="text-sm">
 							<span class="font-semibold">Languages:</span>
@@ -95,7 +96,7 @@
 				</div>
 
 				<!-- Border Countries Section -->
-				<div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+				<!-- <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
 					<span class="font-semibold whitespace-nowrap">Border Countries:</span>
 					<div class="flex flex-wrap gap-2">
 						{#if data.borderCountries.length > 0}
@@ -111,7 +112,7 @@
 							<span class="text-sm">No border countries</span>
 						{/if}
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	{:else}
